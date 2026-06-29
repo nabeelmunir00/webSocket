@@ -1,1 +1,2 @@
-const V2: string = "Hello Client";
+const V2: string = "Hello Server";
+
