@@ -1,6 +1,8 @@
 import { WebSocketServer, WebSocket } from "ws";
 
-const ws = new WebSocketServer({ port: 8080 });
+const port = 8080;
+
+const ws = new WebSocketServer({ port: port });
 
 // 0: CONNECTING
 // 1: OPEN(The only state where you can safely .send())
@@ -28,3 +30,5 @@ ws.on("connection", (socket, request) => {
     console.log("Client disconnected");
   });
 });
+
+console.log(`WebSocket Server is live on ws://localhost:${port}`);
