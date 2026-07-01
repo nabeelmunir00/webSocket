@@ -14,11 +14,13 @@ ws.on("connection", (socket, request) => {
 
   socket.on("message", (rawData) => {
     const message = rawData.toString();
+    console.log("Connected");
     console.log({ rawData });
 
     ws.clients.forEach((client) => {
-      if (client.readyState === WebSocket.OPEN)
+      if (client.readyState === WebSocket.OPEN) {
         client.send(`Server Broadcast: ${message}`);
+      }
     });
   });
 

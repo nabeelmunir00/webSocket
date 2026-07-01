@@ -69,7 +69,7 @@
       appendLog("[RECIVED]", e.data);
     });
 
-    document.getElementById().addEventListener("submit", (e) => {
+    document.getElementById("message-form").addEventListener("submit", (e) => {
       e.preventDefault();
       if (socket.readyState !== WebSocket.OPEN) {
         appendLog("[Error]", "No active tunnel found!");
