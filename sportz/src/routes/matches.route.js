@@ -23,19 +23,17 @@ matchRouter.get("/", async (req, res) => {
   }
   const limit = Math.min(parsed.data.limit ?? 50, MAX_LIMIT);
   try {
-    const { data } = await db
+    const data = await db
       .select()
       .from(matches)
       .orderBy(desc(matches.createdAt))
       .limit(limit);
     res.status(200).json({ data });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error: "Failed to list matches",
-        details: JSON.stringify(error),
-      });
+    res.status(500).json({
+      error: "Failed to list matches",
+      details: JSON.stringify(error),
+    });
   }
 });
 
@@ -63,14 +61,15 @@ matchRouter.post("/", async (req, res) => {
         status: getMatchStatus(startTime, endTime),
       })
       .returning();
+    if (res.app.locals.broadCastMatchCreate) {
+      res.app.locals.broadCastMatchCreate(event);
+    }
 
     res.status(201).json({ data: event });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error: "Failed to create match",
-        details: JSON.stringify(error),
-      });
+    res.status(500).json({
+      error: "Failed to create match",
+      details: JSON.stringify(error),
+    });
   }
 });
