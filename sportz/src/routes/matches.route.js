@@ -12,7 +12,7 @@ export const matchRouter = Router();
 
 const MAX_LIMIT = 100;
 
-matchRouter.get("/", (req, res) => {
+matchRouter.get("/", async (req, res) => {
   const parsed = listMatchesQuerySchema.safeParse(req.query);
 
   if (!parsed) {
@@ -21,14 +21,21 @@ matchRouter.get("/", (req, res) => {
       details: JSON.stringify(parsed.error),
     });
   }
-  const limit = Math.min(parsed.data.limit ?? 50,MAX_LIMIT)
+  const limit = Math.min(parsed.data.limit ?? 50, MAX_LIMIT);
   try {
-    const {data} = await db.select().from(matches).orderBy((desc(matches.createdAt))).limit(limit)
-    res.status(200).json({data})
+    const { data } = await db
+      .select()
+      .from(matches)
+      .orderBy(desc(matches.createdAt))
+      .limit(limit);
+    res.status(200).json({ data });
   } catch (error) {
     res
       .status(500)
-      .json({ error: "Failed to list matches", details: JSON.stringify(error) });
+      .json({
+        error: "Failed to list matches",
+        details: JSON.stringify(error),
+      });
   }
 });
 
@@ -61,6 +68,9 @@ matchRouter.post("/", async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .json({ error: "Failed to create match", details: JSON.stringify(error) });
+      .json({
+        error: "Failed to create match",
+        details: JSON.stringify(error),
+      });
   }
 });
