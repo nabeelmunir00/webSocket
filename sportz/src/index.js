@@ -9,7 +9,7 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("Hello form Express server");
 });
-app.use("/match", matchRouter);
+app.use("/matches", matchRouter);
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
