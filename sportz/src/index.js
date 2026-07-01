@@ -1,4 +1,5 @@
 import express from "express";
+import { matchRouter } from "./routes/matches.route.js";
 
 const app = express();
 const port = 8000;
@@ -8,6 +9,7 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("Hello form Express server");
 });
+app.use("/match", matchRouter);
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
